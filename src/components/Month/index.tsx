@@ -1,12 +1,13 @@
-import React from 'react';
-import { View } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Text } from 'react-native';
 import { DayType, MonthProps } from '../../types';
 import { getDayNames } from '../../utils/date';
 import { getMonthDays, areEqual } from '../utils';
 import WeekDays from '../WeekDays';
 import Day from '../Day';
+import { useState } from 'react';
 
-export default React.memo<MonthProps>((props: MonthProps) => {
+export default React.memo<MonthProps>((props: MonthProps, nextProps) => {
   const {
     month,
     year,
@@ -49,9 +50,10 @@ export default React.memo<MonthProps>((props: MonthProps) => {
   while (days.length) {
     weeks.push(days.splice(0, 7));
   }
-
+  console.log(props.activeDay);
   return (
-    <>
+    <View>
+      <Text>{props.activeDay}</Text>
       {showWeekdays && <WeekDays days={DAY_NAMES} theme={theme} />}
       {weeks.map((week: DayType[], index: number) => (
         <View key={String(index)} style={{ flexDirection: 'row' }}>
@@ -66,6 +68,6 @@ export default React.memo<MonthProps>((props: MonthProps) => {
           ))}
         </View>
       ))}
-    </>
+    </View>
   );
 }, areEqual);

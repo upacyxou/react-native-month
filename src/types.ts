@@ -103,6 +103,7 @@ export interface MonthProps {
    * @description Monday is the first day of the week according to the international standard ISO 8601
    * @memberof MonthProps
    */
+  activeDay: number;
   firstDayMonday?: boolean;
   startDate?: Date;
   endDate?: Date;

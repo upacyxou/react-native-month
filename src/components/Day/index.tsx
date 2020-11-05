@@ -1,5 +1,13 @@
-import React, { ComponentType } from 'react';
-import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
+import React, { ComponentType, useEffect, useLayoutEffect } from 'react';
+import {
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  Text,
+  findNodeHandle,
+  UIManager,
+} from 'react-native';
+// import { dayStore } from '../../store';
 import { DayType, ThemeType } from '../../types';
 
 const styles = StyleSheet.create({
@@ -131,7 +139,6 @@ const Day = React.memo<Props>(
         />
       );
     }
-
     return (
       <TouchableOpacity
         style={[
@@ -151,6 +158,18 @@ const Day = React.memo<Props>(
           props.renderDayContent(props.item)
         ) : (
           <Text
+            ref={(ref) => {
+              // if (dayStore.allDays.length > 30) {
+              //   dayStore.allDays = [];
+              // }
+              const handle = findNodeHandle(ref);
+              if (!handle) {
+                return;
+              }
+              // UIManager.measure(handle, (x, y, panX, panY, pageX, pageY) => {
+              //   dayStore.addDay([pageX, pageY]);
+              // });
+            }}
             style={[
               { color: isActive ? 'white' : 'black' },
               theme.dayTextStyle,
