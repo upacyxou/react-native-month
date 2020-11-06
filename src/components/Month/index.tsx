@@ -54,19 +54,19 @@ export default React.memo<MonthProps>((props: MonthProps, nextProps) => {
   }
   if (activeCoordinates) {
     if (!sharedDayStore.allDays) {
-      return;
+    } else {
+      sharedDayStore.allDays.forEach((day) => {
+        const date = day.actualDate;
+        const x = day.xPosition;
+        const y = day.yPosition;
+        if (
+          Math.abs(y - activeCoordinates.y) < 30 &&
+          Math.abs(x - activeCoordinates.x) < 30
+        ) {
+          onActiveDayChange(date.getDate());
+        }
+      });
     }
-    sharedDayStore.allDays.forEach((day) => {
-      const date = day.actualDate;
-      const x = day.xPosition;
-      const y = day.yPosition;
-      if (
-        Math.abs(y - activeCoordinates.y) < 30 &&
-        Math.abs(x - activeCoordinates.x) < 30
-      ) {
-        onActiveDayChange(date.getDate());
-      }
-    });
   }
   useEffect(() => {
     setTimeout(() => {
