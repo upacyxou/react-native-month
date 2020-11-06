@@ -1,6 +1,7 @@
 import { addDays, getNumberOfDaysInMonth } from '../utils/date';
 import { changedDate, sameDate } from '../utils/validations';
 import { MonthProps, DayType } from '../types';
+import { sharedDayStore } from '../store/DayStore';
 
 const MONDAY_FIRST = [6, 0, 1, 2, 3, 4, 5];
 
@@ -118,7 +119,8 @@ export function getMonthDays(
 }
 
 export function areEqual(prevProps: MonthProps, nextProps: MonthProps) {
-  return (
+  const trueOrFalse =
+    prevProps.activeCoordinates === nextProps.activeCoordinates &&
     prevProps.month === nextProps.month &&
     prevProps.year === nextProps.year &&
     prevProps.locale === nextProps.locale &&
@@ -130,6 +132,9 @@ export function areEqual(prevProps: MonthProps, nextProps: MonthProps) {
     !changedDate(prevProps.startDate, nextProps.startDate) &&
     !changedDate(prevProps.endDate, nextProps.endDate) &&
     !changedDate(prevProps.minDate, nextProps.minDate) &&
-    !changedDate(prevProps.maxDate, nextProps.maxDate)
-  );
+    !changedDate(prevProps.maxDate, nextProps.maxDate);
+  // if (prevProps.activeDay !== nextProps.activeDay) {
+  //   sharedDayStore.allDaysRef = [];
+  // }
+  return trueOrFalse;
 }

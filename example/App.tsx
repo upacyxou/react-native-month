@@ -94,6 +94,7 @@ const DISABLED_DAYS = {
 type Props = {};
 
 type State = {
+  activeCoordinates: any;
   activeDay: number;
   disableRange: boolean;
   offsets: boolean;
@@ -105,6 +106,7 @@ type State = {
 
 export default class App extends React.PureComponent<Props, State> {
   state = {
+    activeCoordinates: {},
     activeDay: 0,
     disableRange: false,
     offsets: false,
@@ -159,15 +161,18 @@ export default class App extends React.PureComponent<Props, State> {
       [null, { dx: this.aniState.pan.x, dy: this.aniState.pan.y }],
       {
         listener: ({ nativeEvent }: any) => {
+          this.setState({
+            activeCoordinates: { x: nativeEvent.pageX, y: nativeEvent.pageY },
+          });
           coodinates.forEach((arr) => {
             const date = arr[2];
             const x = arr[0];
             const y = arr[1];
             if (
-              Math.abs(y - nativeEvent.pageY) < 20 &&
-              Math.abs(x - nativeEvent.pageX) < 20
+              Math.abs(y - nativeEvent.pageY) < 30 &&
+              Math.abs(x - nativeEvent.pageX) < 30
             ) {
-              this.setState({ activeDay: date });
+              return true;
             }
           });
         },
@@ -190,7 +195,10 @@ export default class App extends React.PureComponent<Props, State> {
           }}
         >
           <Month
-            activeDay={this.state.activeDay}
+            onActiveDayChange={(activeDay: number) =>
+              this.setState({ activeDay: activeDay })
+            }
+            activeCoordinates={this.state.activeCoordinates}
             month={this.state.startDate.getMonth()}
             year={this.state.startDate.getFullYear()}
             onPress={this.handlePress}

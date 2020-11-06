@@ -29,14 +29,15 @@
     "month"
   ],
   "author": "Alejandro Maggi",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/maggialejandro/react-native-month/issues"
   },
   "homepage": "https://github.com/maggialejandro/react-native-month#readme",
   "peerDependencies": {
     "react": "*",
-    "react-native": "*"
+    "react-native": "*",
+    "mobx": "^6.0.3",
+    "mobx-react": "^7.0.0"
   },
   "devDependencies": {
     "@babel/core": "7.9.0",
@@ -112,7 +113,6 @@
   },
   "dependencies": {
     "mobx": "^6.0.3",
-    "mobx-react": "^7.0.0",
     "react-native-intersection-observer": "^0.0.7",
     "react-native-reanimated": "^1.13.1"
   }

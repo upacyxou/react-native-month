@@ -7,6 +7,7 @@ import {
   findNodeHandle,
   UIManager,
 } from 'react-native';
+import { sharedDayStore } from '../../store/DayStore';
 // import { dayStore } from '../../store';
 import { DayType, ThemeType } from '../../types';
 
@@ -159,16 +160,10 @@ const Day = React.memo<Props>(
         ) : (
           <Text
             ref={(ref) => {
-              // if (dayStore.allDays.length > 30) {
-              //   dayStore.allDays = [];
-              // }
-              const handle = findNodeHandle(ref);
-              if (!handle) {
-                return;
-              }
-              // UIManager.measure(handle, (x, y, panX, panY, pageX, pageY) => {
-              //   dayStore.addDay([pageX, pageY]);
-              // });
+              sharedDayStore.addDayRef({
+                ref: ref,
+                actualDate: date,
+              });
             }}
             style={[
               { color: isActive ? 'white' : 'black' },
