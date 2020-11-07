@@ -23,6 +23,10 @@ class DayStore {
     this.allDays.push(day);
   }
 
+  emptyDays() {
+    this.allDays = [];
+  }
+
   @computed get compotedAllDaysRef() {
     return this.allDaysRef;
   }

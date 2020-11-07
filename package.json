@@ -1,8 +1,7 @@
 {
   "licenses": "MIT",
   "license": "MIT",
-  "private": true,
-  "name": "react-native-month",
+  "name": "@upacyxou/react-native-month",
   "version": "1.0.3",
   "description": "React Native Month",
   "main": "lib/commonjs/index.js",
@@ -16,9 +15,8 @@
   "scripts": {
     "typescript": "tsc --noEmit",
     "lint": "eslint --ext .ts,.tsx src/",
-    "test": "jest",
-    "prepublish": "npm run test",
-    "prepare": "bob build"
+    "test": "echo 'hi'",
+    "prepublish": "npm run test"
   },
   "repository": {
     "type": "git",
@@ -99,21 +97,13 @@
       "__fixtures__\\/[/]+\\/(output|error)\\.js"
     ]
   },
-  "@react-native-community/bob": {
-    "source": "src",
-    "output": "lib",
-    "targets": [
-      "commonjs",
-      "module",
-      "typescript"
-    ],
-    "files": [
-      "src/"
-    ]
-  },
   "dependencies": {
     "mobx": "^6.0.3",
     "react-native-intersection-observer": "^0.0.7",
     "react-native-reanimated": "^1.13.1"
+  },
+  "directories": {
+    "example": "example",
+    "lib": "lib"
   }
 }

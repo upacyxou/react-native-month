@@ -29,8 +29,8 @@ export default React.memo<MonthProps>((props: MonthProps, nextProps) => {
     renderDayContent,
     activeCoordinates,
     onActiveDayChange,
+    emptyDays,
   } = props;
-
   const DAY_NAMES =
     Array.isArray(dayNames) && dayNames.length === 7
       ? dayNames
@@ -56,6 +56,9 @@ export default React.memo<MonthProps>((props: MonthProps, nextProps) => {
     if (!sharedDayStore.allDays) {
     } else {
       sharedDayStore.allDays.forEach((day) => {
+        if (!day) {
+          return;
+        }
         const date = day.actualDate;
         const x = day.xPosition;
         const y = day.yPosition;
@@ -69,6 +72,7 @@ export default React.memo<MonthProps>((props: MonthProps, nextProps) => {
     }
   }
   useEffect(() => {
+    sharedDayStore.emptyDays();
     setTimeout(() => {
       sharedDayStore.compotedAllDaysRef.forEach((day) => {
         const handle = findNodeHandle(day.ref);

@@ -104,6 +104,7 @@ export interface MonthProps {
    * @memberof MonthProps
    */
   onActiveDayChange: (day: any) => any;
+  emptyDays: (emptyDays: any) => any;
   activeCoordinates: any;
   activeDay?: number;
   firstDayMonday?: boolean;
