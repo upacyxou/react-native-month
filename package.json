@@ -2,12 +2,12 @@
   "licenses": "MIT",
   "license": "MIT",
   "name": "@upacyxou/react-native-month",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "React Native Month",
-  "main": "lib/commonjs/index.js",
-  "react-native": "lib/module/index.js",
-  "module": "lib/module/index.js",
-  "types": "lib/typescript/src/index.d.ts",
+  "main": "lib/index.js",
+  "react-native": "lib/index.js",
+  "module": "lib/index.js",
+  "types": "lib/index.d.ts",
   "files": [
     "lib",
     "babel.js"
