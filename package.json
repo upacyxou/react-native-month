@@ -1,8 +1,7 @@
 {
-  "licenses": "MIT",
   "license": "MIT",
   "name": "@upacyxou/react-native-month",
-  "version": "1.0.4",
+  "version": "1.0.7",
   "description": "React Native Month",
   "main": "lib/index.js",
   "react-native": "lib/index.js",
@@ -34,8 +33,8 @@
   "peerDependencies": {
     "react": "*",
     "react-native": "*",
-    "mobx": "^6.0.3",
-    "mobx-react": "^7.0.0"
+    "mobx": "*",
+    "mobx-react": "*"
   },
   "devDependencies": {
     "@babel/core": "7.9.0",
@@ -98,7 +97,6 @@
     ]
   },
   "dependencies": {
-    "mobx": "^6.0.3",
     "react-native-intersection-observer": "^0.0.7",
     "react-native-reanimated": "^1.13.1"
   },

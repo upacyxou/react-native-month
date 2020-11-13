@@ -3,6 +3,7 @@
     "paths": {
       "react-native-month": ["./src/index"]
     },
+    "baseUrl": ".",
     "experimentalDecorators": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
