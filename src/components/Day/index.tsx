@@ -1,12 +1,5 @@
-import React, { ComponentType, useEffect, useLayoutEffect } from 'react';
-import {
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  Text,
-  findNodeHandle,
-  UIManager,
-} from 'react-native';
+import React, { ComponentType } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { sharedDayStore } from '../../store/DayStore';
 // import { dayStore } from '../../store';
 import { DayType, ThemeType } from '../../types';
@@ -33,6 +26,7 @@ const styles = StyleSheet.create({
 });
 
 interface NonTouchableDayProps {
+  dark: boolean;
   date: Date;
   isActive: boolean;
   isMonthDate: boolean;
@@ -55,6 +49,7 @@ const NonTouchableDay = React.memo<NonTouchableDayProps>(
       theme,
       date,
       isToday,
+      dark,
     } = props;
 
     return (
@@ -71,6 +66,7 @@ const NonTouchableDay = React.memo<NonTouchableDayProps>(
           isEndDate ? theme.endDateContainerStyle : {},
           isStartDate ? styles.startDate : {},
           isStartDate ? theme.startDateContainerStyle : {},
+          { backgroundColor: dark ? '#19191A' : '#FCFCFE' },
         ]}
       >
         <Text
@@ -89,6 +85,8 @@ const NonTouchableDay = React.memo<NonTouchableDayProps>(
   },
   (prevProps, nextProps) => {
     return (
+      prevProps.dark === nextProps.dark &&
+      JSON.stringify(prevProps.theme) === JSON.stringify(nextProps.theme) &&
       prevProps.isActive === nextProps.isActive &&
       prevProps.isVisible === nextProps.isVisible &&
       prevProps.isStartDate === nextProps.isStartDate &&
@@ -101,12 +99,13 @@ interface Props {
   onPress: (date: Date) => void;
   item: DayType;
   theme: ThemeType;
+  dark: boolean;
   renderDayContent?: (day: DayType) => ComponentType;
 }
 
 const Day = React.memo<Props>(
   (props: Props) => {
-    const {
+    let {
       item: {
         date,
         isVisible,
@@ -114,12 +113,17 @@ const Day = React.memo<Props>(
         isStartDate,
         isEndDate,
         isMonthDate,
-        isOutOfRange,
         isToday,
         isHidden,
+        isOutOfRange,
       },
       theme,
+      dark,
     } = props;
+
+    if (!isOutOfRange && date.getTime() < new Date().getTime()) {
+      isVisible = false;
+    }
 
     if (isHidden) {
       return <View style={[styles.container]} />;
@@ -128,6 +132,7 @@ const Day = React.memo<Props>(
     if (!isVisible) {
       return (
         <NonTouchableDay
+          dark={dark}
           isActive={isActive}
           date={date}
           theme={theme}
@@ -152,6 +157,7 @@ const Day = React.memo<Props>(
           isStartDate ? theme.startDateContainerStyle : {},
           isEndDate ? styles.endDate : {},
           isEndDate ? theme.endDateContainerStyle : {},
+          { backgroundColor: dark ? '#19191A' : '#FCFCFE' },
         ]}
         onPress={() => props.onPress(props.item.date)}
       >
@@ -166,10 +172,13 @@ const Day = React.memo<Props>(
               });
             }}
             style={[
-              { color: isActive ? 'white' : 'black' },
               theme.dayTextStyle,
               isToday ? theme.todayTextStyle : {},
               isActive ? theme.activeDayTextStyle : {},
+              theme.dayTextStyle,
+              isToday ? theme.todayTextStyle : {},
+              isActive ? theme.activeDayTextStyle : {},
+              { color: dark ? '#f9f9f9' : '#060606' },
             ]}
           >
             {date.getDate()}
@@ -180,6 +189,8 @@ const Day = React.memo<Props>(
   },
   (prevProps, nextProps) => {
     return (
+      JSON.stringify(prevProps.theme) === JSON.stringify(nextProps.theme) &&
+      prevProps.dark === nextProps.dark &&
       prevProps.item.isActive === nextProps.item.isActive &&
       prevProps.item.isVisible === nextProps.item.isVisible &&
       prevProps.item.isStartDate === nextProps.item.isStartDate &&

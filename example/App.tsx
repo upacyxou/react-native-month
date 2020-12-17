@@ -3,53 +3,18 @@
 
 import React from 'react';
 import {
-  View,
-  StatusBar,
-  SafeAreaView,
   Animated,
+  Button,
   PanResponder,
+  SafeAreaView,
+  StatusBar,
   StyleSheet,
   Text,
-  TouchableOpacity,
-  Button,
+  View,
 } from 'react-native';
-import { Month, ThemeType } from 'react-native-month';
+import { Month } from 'react-native-month';
 
 const BLUE = '#6d95da';
-
-const THEME: ThemeType = {
-  weekColumnsContainerStyle: {},
-  weekColumnStyle: {
-    paddingVertical: 10,
-  },
-  weekColumnTextStyle: {
-    color: '#b6c1cd',
-    fontSize: 13,
-  },
-  nonTouchableDayContainerStyle: {},
-  nonTouchableDayTextStyle: {},
-  startDateContainerStyle: {},
-  endDateContainerStyle: {},
-  dayContainerStyle: {},
-  dayTextStyle: {
-    color: '#2d4150',
-    fontWeight: '200',
-    fontSize: 15,
-  },
-  dayOutOfRangeContainerStyle: {},
-  dayOutOfRangeTextStyle: {},
-  todayContainerStyle: {},
-  todayTextStyle: {
-    color: BLUE,
-  },
-  activeDayContainerStyle: {
-    backgroundColor: BLUE,
-  },
-  activeDayTextStyle: {
-    color: 'white',
-  },
-  nonTouchableLastMonthDayTextStyle: {},
-};
 
 type Props = {};
 
@@ -67,6 +32,7 @@ type State = {
 
 export default class App extends React.PureComponent<Props, State> {
   state = {
+    dark: true,
     activeCoordinates: {},
     activeDay: 0,
     disableRange: false,
@@ -160,16 +126,13 @@ export default class App extends React.PureComponent<Props, State> {
             month={this.state.month}
             year={this.state.startDate.getFullYear()}
             onPress={this.handlePress}
-            theme={THEME}
+            dark={this.state.dark}
             showWeekdays
             locale="en"
           />
           <Button
             onPress={() => {
-              const replicaDate = this.state.startDate;
-              replicaDate.setMonth(replicaDate.getMonth() + 1);
-              this.emptyDays();
-              this.setState({ month: replicaDate.getMonth() });
+              this.setState({ dark: !this.state.dark });
             }}
             title={'Next'}
           >

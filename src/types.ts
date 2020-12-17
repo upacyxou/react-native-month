@@ -1,7 +1,7 @@
 /* eslint-disable flowtype/no-types-missing-file-annotation */
 
 import { ComponentType } from 'react';
-import { ViewStyle, TextStyle } from 'react-native';
+import { TextStyle, ViewStyle } from 'react-native';
 
 export type LocaleType = 'es' | 'en' | 'fr' | 'br' | 'zh';
 
@@ -103,6 +103,7 @@ export interface MonthProps {
    * @description Monday is the first day of the week according to the international standard ISO 8601
    * @memberof MonthProps
    */
+  dark: boolean;
   onActiveDayChange: (day: any) => any;
   emptyDays: (emptyDays: any) => any;
   activeCoordinates: any;

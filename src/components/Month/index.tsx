@@ -1,13 +1,11 @@
 import React, { useEffect } from 'react';
-import { View, Text, findNodeHandle } from 'react-native';
+import { findNodeHandle, UIManager, View } from 'react-native';
+import { sharedDayStore } from '../../store/DayStore';
 import { DayType, MonthProps } from '../../types';
 import { getDayNames } from '../../utils/date';
-import { getMonthDays, areEqual } from '../utils';
-import WeekDays from '../WeekDays';
 import Day from '../Day';
-import { useState } from 'react';
-import { sharedDayStore } from '../../store/DayStore';
-import { UIManager } from 'react-native';
+import { areEqual, getMonthDays } from '../utils';
+import WeekDays from '../WeekDays';
 
 export default React.memo<MonthProps>((props: MonthProps, nextProps) => {
   const {
@@ -30,6 +28,7 @@ export default React.memo<MonthProps>((props: MonthProps, nextProps) => {
     activeCoordinates,
     onActiveDayChange,
     emptyDays,
+    dark,
   } = props;
   const DAY_NAMES =
     Array.isArray(dayNames) && dayNames.length === 7
@@ -66,7 +65,7 @@ export default React.memo<MonthProps>((props: MonthProps, nextProps) => {
           Math.abs(y - activeCoordinates.y) < 30 &&
           Math.abs(x - activeCoordinates.x) < 30
         ) {
-          onActiveDayChange(date.getDate());
+          onActiveDayChange(date);
         }
       });
     }
@@ -91,11 +90,12 @@ export default React.memo<MonthProps>((props: MonthProps, nextProps) => {
   });
   return (
     <View>
-      {showWeekdays && <WeekDays days={DAY_NAMES} theme={theme} />}
+      {showWeekdays && <WeekDays days={DAY_NAMES} theme={theme} dark={dark} />}
       {weeks.map((week: DayType[], index: number) => (
         <View key={String(index)} style={{ flexDirection: 'row' }}>
           {week.map((day: DayType) => (
             <Day
+              dark={dark}
               key={day.id}
               item={day}
               onPress={onPress}

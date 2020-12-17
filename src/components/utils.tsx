@@ -1,7 +1,6 @@
+import { DayType, MonthProps } from '../types';
 import { addDays, getNumberOfDaysInMonth } from '../utils/date';
 import { changedDate, sameDate } from '../utils/validations';
-import { MonthProps, DayType } from '../types';
-import { sharedDayStore } from '../store/DayStore';
 
 const MONDAY_FIRST = [6, 0, 1, 2, 3, 4, 5];
 
@@ -120,6 +119,7 @@ export function getMonthDays(
 
 export function areEqual(prevProps: MonthProps, nextProps: MonthProps) {
   const trueOrFalse =
+    prevProps.dark === nextProps.dark &&
     prevProps.activeCoordinates === nextProps.activeCoordinates &&
     prevProps.month === nextProps.month &&
     prevProps.year === nextProps.year &&
