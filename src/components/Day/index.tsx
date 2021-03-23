@@ -1,8 +1,8 @@
-import React, { ComponentType } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { sharedDayStore } from '../../store/DayStore';
+import React, { ComponentType } from 'react'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { sharedDayStore } from '../../store/DayStore'
 // import { dayStore } from '../../store';
-import { DayType, ThemeType } from '../../types';
+import { DayType, ThemeType } from '../../types'
 
 const styles = StyleSheet.create({
   activeDate: {
@@ -23,19 +23,19 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 60,
     borderTopLeftRadius: 60,
   },
-});
+})
 
 interface NonTouchableDayProps {
-  dark: boolean;
-  date: Date;
-  isActive: boolean;
-  isMonthDate: boolean;
-  isOutOfRange: boolean;
-  isStartDate: boolean;
-  isEndDate: boolean;
-  isVisible: boolean;
-  isToday: boolean;
-  theme: ThemeType;
+  dark: boolean
+  date: Date
+  isActive: boolean
+  isMonthDate: boolean
+  isOutOfRange: boolean
+  isStartDate: boolean
+  isEndDate: boolean
+  isVisible: boolean
+  isToday: boolean
+  theme: ThemeType
 }
 
 const NonTouchableDay = React.memo<NonTouchableDayProps>(
@@ -50,7 +50,7 @@ const NonTouchableDay = React.memo<NonTouchableDayProps>(
       date,
       isToday,
       dark,
-    } = props;
+    } = props
 
     return (
       <View
@@ -81,7 +81,7 @@ const NonTouchableDay = React.memo<NonTouchableDayProps>(
           {date.getDate()}
         </Text>
       </View>
-    );
+    )
   },
   (prevProps, nextProps) => {
     return (
@@ -91,16 +91,16 @@ const NonTouchableDay = React.memo<NonTouchableDayProps>(
       prevProps.isVisible === nextProps.isVisible &&
       prevProps.isStartDate === nextProps.isStartDate &&
       prevProps.isEndDate === nextProps.isEndDate
-    );
+    )
   }
-);
+)
 
 interface Props {
-  onPress: (date: Date) => void;
-  item: DayType;
-  theme: ThemeType;
-  dark: boolean;
-  renderDayContent?: (day: DayType) => ComponentType;
+  onPress: (date: Date) => void
+  item: DayType
+  theme: ThemeType
+  dark: boolean
+  renderDayContent?: (day: DayType) => ComponentType
 }
 
 const Day = React.memo<Props>(
@@ -119,14 +119,14 @@ const Day = React.memo<Props>(
       },
       theme,
       dark,
-    } = props;
+    } = props
 
     if (!isOutOfRange && date.getTime() < new Date().getTime()) {
-      isVisible = false;
+      isVisible = false
     }
 
     if (isHidden) {
-      return <View style={[styles.container]} />;
+      return <View style={[styles.container]} />
     }
 
     if (!isVisible) {
@@ -143,7 +143,7 @@ const Day = React.memo<Props>(
           isVisible={isVisible}
           isToday={isToday}
         />
-      );
+      )
     }
     return (
       <TouchableOpacity
@@ -169,7 +169,7 @@ const Day = React.memo<Props>(
               sharedDayStore.addDayRef({
                 ref: ref,
                 actualDate: date,
-              });
+              })
             }}
             style={[
               theme.dayTextStyle,
@@ -185,7 +185,7 @@ const Day = React.memo<Props>(
           </Text>
         )}
       </TouchableOpacity>
-    );
+    )
   },
   (prevProps, nextProps) => {
     return (
@@ -196,8 +196,8 @@ const Day = React.memo<Props>(
       prevProps.item.isStartDate === nextProps.item.isStartDate &&
       prevProps.item.isEndDate === nextProps.item.isEndDate &&
       prevProps.renderDayContent === nextProps.renderDayContent
-    );
+    )
   }
-);
+)
 
-export default Day;
+export default Day

@@ -1,35 +1,38 @@
-import { observable, computed } from 'mobx';
+import { observable, computed } from 'mobx'
 
 interface DayRefStoreInterface {
-  ref: any;
-  actualDate: Date;
+  ref: any
+  actualDate: Date
 }
 
 interface DayStoreInterface {
-  xPosition: number;
-  yPosition: number;
-  actualDate: Date;
+  xPosition: number
+  yPosition: number
+  actualDate: Date
 }
 
 class DayStore {
-  @observable allDays: DayStoreInterface[] = [];
-  @observable allDaysRef: DayRefStoreInterface[] = [];
+  @observable allDays: DayStoreInterface[] = []
+  @observable allDaysRef: DayRefStoreInterface[] = []
+
+  @observable previousX: number | undefined
+  @observable previousY: number | undefined
 
   addDayRef(ref: DayRefStoreInterface) {
-    this.allDaysRef.push(ref);
+    this.allDaysRef.push(ref)
   }
 
   addDay(day: DayStoreInterface) {
-    this.allDays.push(day);
+    this.allDays.push(day)
   }
 
   emptyDays() {
-    this.allDays = [];
+    this.allDays = []
   }
 
   @computed get compotedAllDaysRef() {
-    return this.allDaysRef;
+    return this.allDaysRef
   }
 }
 
-export const sharedDayStore = new DayStore();
+export const sharedDayStore = new DayStore()

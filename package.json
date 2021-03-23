@@ -1,7 +1,7 @@
 {
   "license": "MIT",
   "name": "@upacyxou/react-native-month",
-  "version": "1.1.9",
+  "version": "1.2.7",
   "description": "React Native Month",
   "main": "lib/index.js",
   "react-native": "lib/index.js",
@@ -31,10 +31,11 @@
   },
   "homepage": "https://github.com/maggialejandro/react-native-month#readme",
   "peerDependencies": {
+    "mobx": "*",
+    "mobx-react": "*",
     "react": "*",
     "react-native": "*",
-    "mobx": "*",
-    "mobx-react": "*"
+    "moment": "*"
   },
   "devDependencies": {
     "@babel/core": "7.9.0",
