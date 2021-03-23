@@ -66,7 +66,7 @@ export interface MonthProps {
    */
   onPress: (date: Date) => void;
 
-  locale?: LocaleType;
+  locale?: string;
   dayNames?: string[];
 
   /**

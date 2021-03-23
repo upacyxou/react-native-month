@@ -33,7 +33,7 @@ export default React.memo<MonthProps>((props: MonthProps, nextProps) => {
   const DAY_NAMES =
     Array.isArray(dayNames) && dayNames.length === 7
       ? dayNames
-      : getDayNames(locale, firstDayMonday)
+      : getDayNames(locale)
 
   const days = getMonthDays(
     month,

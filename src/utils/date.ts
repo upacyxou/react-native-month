@@ -134,7 +134,7 @@ export function getMonthNames(locale: LocaleType) {
   }
 }
 
-export function getDayNames(locale: LocaleType, firstDayMonday: boolean) {
+export function getDayNames(locale: string) {
   moment.locale(locale)
   return moment.weekdaysShort()
 }
