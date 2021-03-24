@@ -1,17 +1,17 @@
-import React from 'react'
-import { Text, View } from 'react-native'
-import { ThemeType } from '../../types'
+import React from 'react';
+import { Text, View } from 'react-native';
+import { ThemeType } from '../../types';
 
 function areEqual(nextProps: any, prevProps: any) {
-  return false
+  return false;
 }
 
-const SHOULD_NOT_UPDATE = false
+const SHOULD_NOT_UPDATE = false;
 
 interface WeekColumnProps {
-  day: string
-  theme: ThemeType
-  dark: boolean
+  day: string;
+  theme: ThemeType;
+  dark: boolean;
 }
 
 const WeekColumn = React.memo<WeekColumnProps>(
@@ -38,12 +38,12 @@ const WeekColumn = React.memo<WeekColumnProps>(
     </View>
   ),
   areEqual
-)
+);
 
 interface WeekColumnsProps {
-  days: string[]
-  theme: ThemeType
-  dark: boolean
+  days: string[];
+  theme: ThemeType;
+  dark: boolean;
 }
 
 export default React.memo<WeekColumnsProps>(
@@ -57,4 +57,4 @@ export default React.memo<WeekColumnsProps>(
     </View>
   ),
   areEqual
-)
+);

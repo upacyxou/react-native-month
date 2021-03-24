@@ -1,8 +1,16 @@
-import React, { ComponentType } from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { sharedDayStore } from '../../store/DayStore'
+import React, { ComponentType } from 'react';
+import {
+  InteractionManager,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  UIManager,
+  View,
+} from 'react-native';
+import { sharedDayStore } from '../../store/DayStore';
 // import { dayStore } from '../../store';
-import { DayType, ThemeType } from '../../types'
+import { DayType, ThemeType } from '../../types';
+import { Observer } from 'mobx-react';
 
 const styles = StyleSheet.create({
   activeDate: {
@@ -23,19 +31,19 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 60,
     borderTopLeftRadius: 60,
   },
-})
+});
 
 interface NonTouchableDayProps {
-  dark: boolean
-  date: Date
-  isActive: boolean
-  isMonthDate: boolean
-  isOutOfRange: boolean
-  isStartDate: boolean
-  isEndDate: boolean
-  isVisible: boolean
-  isToday: boolean
-  theme: ThemeType
+  dark: boolean;
+  date: Date;
+  isActive: boolean;
+  isMonthDate: boolean;
+  isOutOfRange: boolean;
+  isStartDate: boolean;
+  isEndDate: boolean;
+  isVisible: boolean;
+  isToday: boolean;
+  theme: ThemeType;
 }
 
 const NonTouchableDay = React.memo<NonTouchableDayProps>(
@@ -50,7 +58,7 @@ const NonTouchableDay = React.memo<NonTouchableDayProps>(
       date,
       isToday,
       dark,
-    } = props
+    } = props;
 
     return (
       <View
@@ -81,7 +89,7 @@ const NonTouchableDay = React.memo<NonTouchableDayProps>(
           {date.getDate()}
         </Text>
       </View>
-    )
+    );
   },
   (prevProps, nextProps) => {
     return (
@@ -91,16 +99,16 @@ const NonTouchableDay = React.memo<NonTouchableDayProps>(
       prevProps.isVisible === nextProps.isVisible &&
       prevProps.isStartDate === nextProps.isStartDate &&
       prevProps.isEndDate === nextProps.isEndDate
-    )
+    );
   }
-)
+);
 
 interface Props {
-  onPress: (date: Date) => void
-  item: DayType
-  theme: ThemeType
-  dark: boolean
-  renderDayContent?: (day: DayType) => ComponentType
+  onPress: (date: Date) => void;
+  item: DayType;
+  theme: ThemeType;
+  dark: boolean;
+  renderDayContent?: (day: DayType) => ComponentType;
 }
 
 const Day = React.memo<Props>(
@@ -117,16 +125,17 @@ const Day = React.memo<Props>(
         isHidden,
         isOutOfRange,
       },
+      currentDay,
       theme,
       dark,
-    } = props
+    } = props;
 
     if (!isOutOfRange && date.getTime() < new Date().getTime()) {
-      isVisible = false
+      isVisible = false;
     }
 
     if (isHidden) {
-      return <View style={[styles.container]} />
+      return <View style={[styles.container]} />;
     }
 
     if (!isVisible) {
@@ -143,61 +152,107 @@ const Day = React.memo<Props>(
           isVisible={isVisible}
           isToday={isToday}
         />
-      )
+      );
     }
     return (
-      <TouchableOpacity
-        style={[
-          styles.container,
-          theme.dayContainerStyle,
-          isToday && !isActive ? theme.todayContainerStyle : {},
-          isActive ? styles.activeDate : {},
-          isActive ? theme.activeDayContainerStyle : {},
-          isStartDate ? styles.startDate : {},
-          isStartDate ? theme.startDateContainerStyle : {},
-          isEndDate ? styles.endDate : {},
-          isEndDate ? theme.endDateContainerStyle : {},
-          { backgroundColor: dark ? '#19191A' : '#FCFCFE' },
-        ]}
-        onPress={() => props.onPress(props.item.date)}
-      >
-        {props.renderDayContent ? (
-          props.renderDayContent(props.item)
-        ) : (
-          <Text
-            ref={(ref) => {
-              sharedDayStore.addDayRef({
-                ref: ref,
-                actualDate: date,
-              })
+      <Observer>
+        {() => (
+          <TouchableOpacity
+            onLayout={(e) => {
+              const nodeId = e.nativeEvent.target;
+              InteractionManager.runAfterInteractions(() => {
+                requestAnimationFrame(() => {
+                  UIManager.measure(
+                    nodeId,
+                    (x, y, width, height, pageX, pageY) => {
+                      if (!sharedDayStore.twoDimensionalMap[pageY]) {
+                        sharedDayStore.twoDimensionalMap[pageY] = {};
+                      }
+                      sharedDayStore.twoDimensionalMap[pageY] = Object.assign(
+                        sharedDayStore.twoDimensionalMap[pageY],
+                        {
+                          [pageX]: date,
+                        }
+                      );
+                    }
+                  );
+                });
+              });
             }}
             style={[
-              theme.dayTextStyle,
-              isToday ? theme.todayTextStyle : {},
-              isActive ? theme.activeDayTextStyle : {},
-              theme.dayTextStyle,
-              isToday ? theme.todayTextStyle : {},
-              isActive ? theme.activeDayTextStyle : {},
-              { color: dark ? '#f9f9f9' : '#060606' },
+              styles.container,
+              theme.dayContainerStyle,
+              isToday && !isActive ? theme.todayContainerStyle : {},
+              isActive ? styles.activeDate : {},
+              isActive ? theme.activeDayContainerStyle : {},
+              isStartDate ? styles.startDate : {},
+              isStartDate ? theme.startDateContainerStyle : {},
+              isEndDate ? styles.endDate : {},
+              isEndDate ? theme.endDateContainerStyle : {},
+              { backgroundColor: dark ? '#19191A' : '#FCFCFE' },
             ]}
+            onPress={() => props.onPress(props.item.date)}
           >
-            {date.getDate()}
-          </Text>
+            {currentDay === date.getDate() && (
+              <View
+                style={{
+                  position: 'absolute',
+                  display: 'flex',
+                  marginTop: -24,
+                }}
+              >
+                <View
+                  style={{
+                    width: 24,
+                    height: 24,
+                    backgroundColor: 'grey',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Text>{date.getDate()}</Text>
+                </View>
+                <View
+                  style={{
+                    backgroundColor: 'transparent',
+                    borderStyle: 'solid',
+                    borderLeftWidth: 9,
+                    borderRightWidth: 9,
+                    borderBottomWidth: 15,
+                    borderLeftColor: 'transparent',
+                    borderRightColor: 'transparent',
+                    borderBottomColor: 'red',
+                    transform: [{ rotate: '180deg' }],
+                  }}
+                />
+              </View>
+            )}
+            {props.renderDayContent ? (
+              props.renderDayContent(props.item)
+            ) : (
+              <Text
+                style={[
+                  theme.dayTextStyle,
+                  isToday ? theme.todayTextStyle : {},
+                  isActive ? theme.activeDayTextStyle : {},
+                  theme.dayTextStyle,
+                  isToday ? theme.todayTextStyle : {},
+                  isActive ? theme.activeDayTextStyle : {},
+                  { color: dark ? '#f9f9f9' : '#060606' },
+                ]}
+              >
+                {date.getDate()}
+              </Text>
+            )}
+          </TouchableOpacity>
         )}
-      </TouchableOpacity>
-    )
+      </Observer>
+    );
   },
   (prevProps, nextProps) => {
-    return (
-      JSON.stringify(prevProps.theme) === JSON.stringify(nextProps.theme) &&
-      prevProps.dark === nextProps.dark &&
-      prevProps.item.isActive === nextProps.item.isActive &&
-      prevProps.item.isVisible === nextProps.item.isVisible &&
-      prevProps.item.isStartDate === nextProps.item.isStartDate &&
-      prevProps.item.isEndDate === nextProps.item.isEndDate &&
-      prevProps.renderDayContent === nextProps.renderDayContent
-    )
+    return false;
   }
-)
+);
 
-export default Day
+export default Day;
