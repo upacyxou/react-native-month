@@ -47,7 +47,11 @@ export function getMonthDays(
   const daysToCompleteRows = (startWeekOffset + daysToAdd) % 7;
   const lastRowNextMonthDays = daysToCompleteRows ? 7 - daysToCompleteRows : 0;
 
-  for (let i = -startWeekOffset; i < daysToAdd + lastRowNextMonthDays; i++) {
+  for (
+    let i = -startWeekOffset - 1;
+    i < daysToAdd + lastRowNextMonthDays - 1;
+    i++
+  ) {
     const date: Date = addDays(firstMonthDay, i);
     const day = date.getDate();
     const month = date.getMonth();

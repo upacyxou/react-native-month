@@ -1,41 +1,41 @@
-import moment from 'moment'
-import { LocaleType } from '../types'
-import { leapYear } from './validations'
+import moment from 'moment';
+import { LocaleType } from '../types';
+import { leapYear } from './validations';
 
 export function addDays(date: Date, days: number): Date {
-  const result = new Date(date)
-  result.setDate(result.getDate() + days)
-  return result
+  const result = new Date(date);
+  result.setDate(result.getDate() + days);
+  return result;
 }
 
 export function getNumberOfDaysInMonth(month: number, year: number) {
   switch (month) {
     case 0:
-      return 31
+      return 31;
     case 1:
-      return leapYear(year) ? 29 : 28
+      return leapYear(year) ? 29 : 28;
     case 2:
-      return 31
+      return 31;
     case 3:
-      return 30
+      return 30;
     case 4:
-      return 31
+      return 31;
     case 5:
-      return 30
+      return 30;
     case 6:
-      return 31
+      return 31;
     case 7:
-      return 31
+      return 31;
     case 8:
-      return 30
+      return 30;
     case 9:
-      return 31
+      return 31;
     case 10:
-      return 30
+      return 30;
     case 11:
-      return 31
+      return 31;
     default:
-      return 30
+      return 30;
   }
 }
 
@@ -55,7 +55,7 @@ export function getMonthNames(locale: LocaleType) {
         'Octubre',
         'Noviembre',
         'Diciembre',
-      ]
+      ];
     case 'en':
       return [
         'January',
@@ -70,7 +70,7 @@ export function getMonthNames(locale: LocaleType) {
         'October',
         'November',
         'December',
-      ]
+      ];
     case 'fr':
       return [
         'Janvier',
@@ -85,7 +85,7 @@ export function getMonthNames(locale: LocaleType) {
         'Octobre',
         'Novembre',
         'Décembre',
-      ]
+      ];
     case 'zh':
       return [
         '一月',
@@ -100,7 +100,7 @@ export function getMonthNames(locale: LocaleType) {
         '十月',
         '十一月',
         '十二月',
-      ]
+      ];
     case 'br':
       return [
         'Janeiro',
@@ -115,7 +115,7 @@ export function getMonthNames(locale: LocaleType) {
         'Outubro',
         'Novembro',
         'Dezembro',
-      ]
+      ];
     default:
       return [
         'January',
@@ -130,11 +130,11 @@ export function getMonthNames(locale: LocaleType) {
         'October',
         'November',
         'December',
-      ]
+      ];
   }
 }
 
 export function getDayNames(locale: string) {
-  moment.locale(locale)
-  return moment.weekdaysShort()
+  moment.locale(locale);
+  return moment.weekdaysShort();
 }
